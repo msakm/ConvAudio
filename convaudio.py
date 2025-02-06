@@ -191,9 +191,6 @@ def splitextension(fname):
 def parse_line(linestr, ffinfo: FFProcinfo):
     if len(linestr) < 5:
         return
-    #logfile = ffinfo.filename + '.log'
-    #with open(logfile, 'a+') as logf:
-    #    logf.write("%s\n" % linestr)
     if 'time=' in linestr:
         #size=    3428kB time=00:04:14.63 bitrate= 110.3kbits/s speed=78.1x
         #frame=305055 fps=391 q=34.0 Lsize=  787826kB time=03:03:46.50 bitrate= 585.3kbits/s speed=14.1x
@@ -265,8 +262,7 @@ def convert_all(scr = None):
         for ffproc in proc_list:
             if ffproc.proc.poll() != None:  # process finished
                 convertedlist.append(ffproc.filename)
-                if scr != None:
-                    print('Finished: ', ffproc.filename)
+                if scr == None: print('Finished: ', ffproc.filename)
                 finishedprocs.append(ffproc)
             while True:
                 # read line without blocking
@@ -292,7 +288,7 @@ def convert_all(scr = None):
                 proc_list.append(procinf)
                 currentidx += 1
                 outstr = "[{:>3}/{:>3}] {}".format(currentidx, numfiles, procinf.filename)
-                print(outstr)
+                if scr == None: print(outstr)
             else:   # no more input files
                 break
 
